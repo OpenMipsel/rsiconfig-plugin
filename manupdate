@@ -1,0 +1,3 @@
+echo "Setting System and RTC Time...\n"
+date -u +%Y%m%d%H%M%S_\" > /proc/settime 
+date "+The new date and time:\n%c\n"

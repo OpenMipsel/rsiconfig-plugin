@@ -1,0 +1,5 @@
+<keymap>
+	<map context="RSIConfigActions">
+		<key id="KEY_TV" mapto="rtvswitch" flags="mr" />
+	</map>
+</keymap>

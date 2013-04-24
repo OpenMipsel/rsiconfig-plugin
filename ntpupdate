@@ -1,0 +1,5 @@
+echo "Fetching internet time...\n"
+/usr/lib/enigma2/python/Plugins/Extensions/RSIConfig/ntpdate -u pool.ntp.org > /dev/null 2>&1
+echo "Setting System and RTC Time...\n"
+date -u +%Y%m%d%H%M%S_\" > /proc/settime 
+date "+The new date and time:\n%c\n"

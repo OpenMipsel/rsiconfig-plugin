@@ -1,0 +1,5 @@
+<keymap>
+	<map context="RSIConfigActions">
+		<key id="KEY_HOME" mapto="showAzBoxPortal" flags="mr" />
+	</map>
+</keymap>
