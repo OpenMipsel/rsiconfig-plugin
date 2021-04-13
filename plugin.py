@@ -60,6 +60,7 @@ standby = 0
 recording = 0
 hd = 0
 
+
 def redled(switch):
 	if switch == 0:
 		try:
@@ -71,6 +72,7 @@ def redled(switch):
 			open("/proc/led", "w").write("4")
 		except:
 			pass
+
 
 def blueled(switch):
 	if switch == 0:
@@ -84,6 +86,7 @@ def blueled(switch):
 		except:
 			pass
 
+
 def greenled(switch):
 	if switch == 0:
 		try:
@@ -95,6 +98,7 @@ def greenled(switch):
 			open("/proc/led", "w").write("6")
 		except:
 			pass
+
 
 def firstled(switch):
 	if switch == 0:
@@ -108,6 +112,7 @@ def firstled(switch):
 		except:
 			pass
 
+
 def secondled(switch):
 	if switch == 0:
 		try:
@@ -120,6 +125,7 @@ def secondled(switch):
 		except:
 			pass
 
+
 def singleled(color):
 	try:
 		if boxime == 'gb800ue':
@@ -129,6 +135,7 @@ def singleled(color):
 	except:
 		pass
 
+
 def singleleddelayed(color):
 	try:
 		if boxime == 'gb800ue':
@@ -137,6 +144,7 @@ def singleleddelayed(color):
 			os.system("sleep 1 && echo " + str(color) + " > /proc/led")
 	except:
 		pass
+
 
 def fanctl(switch):
 	if switch == 0:
@@ -149,6 +157,7 @@ def fanctl(switch):
 			open("/proc/fan", "w").write("1")
 		except:
 			pass
+
 
 def startup(startup=1):
 	print "Applying RSI Configuration Options"
@@ -192,6 +201,7 @@ def startup(startup=1):
 				fanctl(0)
 			else:
 				fanctl(1)
+
 
 class ledctl(Screen):
 	def __init__(self, session):
@@ -358,6 +368,7 @@ class ledctl(Screen):
 				self.sizechanged(0)
 		screensize = size
 
+
 class RSIConfig(Screen, ConfigListScreen):
 
 	def __init__(self, session):
@@ -432,6 +443,7 @@ class RSIConfig(Screen, ConfigListScreen):
 	def keyCancel(self):
 		self.close()
 
+
 class MyConsole(Console):
 	skin = """<screen position="center,center" size="500,240" title="Command execution..." >
 		<widget name="text" position="10,10" size="485,230" font="Regular;20" />
@@ -439,6 +451,7 @@ class MyConsole(Console):
 
 	def __init__(self, session, title="My Console...", cmdlist=None):
 		Console.__init__(self, session, title, cmdlist)
+
 
 class ChangeTimeWizzard(Screen):
 	def __init__(self, session):
@@ -513,6 +526,7 @@ class ChangeTimeWizzard(Screen):
 	def close(self):
 		pass
 
+
 class keymapper(Screen):
 	def __init__(self, session):
 		global newInfoBarPlugins__init__
@@ -528,6 +542,7 @@ class keymapper(Screen):
 		InfoBarPlugins.showAzBoxPortal = showAzBoxPortal
 		InfoBarPlugins.rtvswitch = rtvswitch
 
+
 def InfoBarPlugins__init__(self):
 	if isinstance(self, InfoBarEPG):
 		self["shortcuts"] = ActionMap(["RSIConfigActions"],
@@ -538,8 +553,10 @@ def InfoBarPlugins__init__(self):
 	
 	newInfoBarPlugins__init__(self)
 
+
 def showAzBoxPortal(self):
 	self.session.open(AzBox_Portal)
+
 
 def rtvswitch(self):
 	if config.servicelist.lastmode.value == 'tv':
@@ -548,6 +565,7 @@ def rtvswitch(self):
 	elif config.servicelist.lastmode.value == 'radio':
 		print "RSI - Switch to TV"
 		InfoBar.showTv(InfoBar.instance)
+
 
 class AzBox_Portal(Screen):
 	skin = """
@@ -594,13 +612,16 @@ class AzBox_Portal(Screen):
 	def exit(self):
 		self.close()
 
+
 def startConfig(session, **kwargs):
 	session.open(RSIConfig)
+
 
 def selSetup(menuid, **kwargs):
 	if menuid != "setup":
 		return []
 	return [(_("RSI Configuration"), startConfig, "RSI Configuration Options", None)]
+
 
 def autostart(reason, **kwargs):
 	#"called with reason=1 to during shutdown, with reason=0 at startup?"
@@ -612,6 +633,7 @@ def autostart(reason, **kwargs):
 				keymapper(session)
 			
 			ledctl(session)
+
 
 def Plugins(**kwargs):
 	list = []
