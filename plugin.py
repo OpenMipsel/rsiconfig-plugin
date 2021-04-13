@@ -33,7 +33,7 @@ config.rsi.vfdoffstandby = ConfigYesNo(default=False)
 config.rsi.recstandby = ConfigYesNo(default=False)
 config.rsi.keymaphelper = ConfigYesNo(default=True)
 boxime = HardwareInfo().get_device_name()
-if boxime == 'minime': 
+if boxime == 'minime':
 	boxime = 'me'
 if boxime == 'premium+' or boxime == 'premium':
 	config.rsi.redled = ConfigSelection(choices={"alwaysoff": _("Always off"), "standbyoff": _("Standby off"), "alwayson": _("Always on"), "recon": _("Recording on"), "hdon": _("HD on")}, default="recon")
@@ -166,12 +166,12 @@ def startup(startup=1):
 			redled(0)
 		elif config.rsi.redled.value == 'alwayson' or config.rsi.redled.value == 'standbyoff' or (config.rsi.redled.value == 'hdon' and hd == 1) or (config.rsi.redled.value == 'recon' and recording == 1):
 			redled(1)
-		
+
 		if config.rsi.blueled.value == 'alwaysoff' or (config.rsi.blueled.value == 'hdon' and hd == 0) or (config.rsi.blueled.value == 'recon' and recording == 0):
 			blueled(0)
 		elif config.rsi.blueled.value == 'alwayson' or config.rsi.blueled.value == 'standbyoff' or (config.rsi.blueled.value == 'hdon' and hd == 1) or (config.rsi.blueled.value == 'recon' and recording == 1):
 			blueled(1)
-		
+
 		if config.rsi.greenled.value == 'alwaysoff' or (config.rsi.greenled.value == 'hdon' and hd == 0) or (config.rsi.greenled.value == 'recon' and recording == 0):
 			greenled(0)
 		elif config.rsi.greenled.value == 'alwayson' or config.rsi.greenled.value == 'standbyoff' or (config.rsi.greenled.value == 'hdon' and hd == 1) or (config.rsi.greenled.value == 'recon' and recording == 1):
@@ -182,7 +182,7 @@ def startup(startup=1):
 			firstled(0)
 		elif config.rsi.firstled.value == 'alwayson' or config.rsi.firstled.value == 'standbyoff' or (config.rsi.firstled.value == 'hdon' and hd == 1) or (config.rsi.firstled.value == 'recon' and recording == 1):
 			firstled(1)
-		
+
 		if config.rsi.secondled.value == 'alwaysoff' or (config.rsi.secondled.value == 'hdon' and hd == 0) or (config.rsi.secondled.value == 'recon' and recording == 0):
 			secondled(0)
 		elif config.rsi.secondled.value == 'alwayson' or config.rsi.secondled.value == 'standbyoff' or (config.rsi.secondled.value == 'hdon' and hd == 1) or (config.rsi.secondled.value == 'recon' and recording == 1):
@@ -195,7 +195,7 @@ def startup(startup=1):
 			singleled(config.rsi.hdled.value)
 		else:
 			singleled(config.rsi.normalled.value)
-	
+
 	if boxime == 'premium+' or boxime == 'ultra':
 			if config.rsi.fanoff.value == 'alwaysoff':
 				fanctl(0)
@@ -209,18 +209,18 @@ class ledctl(Screen):
 		self.__event_tracker = ServiceEventTracker(screen=self, eventmap={
 				iPlayableService.evVideoSizeChanged: self.__evVideoSizeChanged
 			})
-	
+
 		NavigationInstance.instance.record_event.append(self.getRecordEvent)
 		config.misc.standbyCounter.addNotifier(self.standbyCounterChanged, initial_call=False)
 		startup()
-	
+
 	def __evVideoSizeChanged(self):
 		service = session.nav.getCurrentService()
 		info = service and service.info()
 		height = info and info.getInfo(iServiceInformation.sVideoHeight)
 		print height
 		self.screensize(info.getInfo(iServiceInformation.sVideoHeight))
-	
+
 	def getRecordEvent(self, recservice, event):
 		recordings = len(NavigationInstance.instance.getRecordings())
 		if event == iRecordableService.evEnd:
@@ -229,15 +229,15 @@ class ledctl(Screen):
 		elif event == iRecordableService.evStart:
 			if recordings > 0:
 				self.recording(1)
-	
+
 	def standbyCounterChanged(self, configElement):
 		from Screens.Standby import inStandby
 		inStandby.onClose.append(self.leaveStandby)
 		self.standby(1)
-	
+
 	def leaveStandby(self):
 		self.standby(0)
-	
+
 	def recording(self, switch):
 		global recording
 		recording = switch
@@ -277,7 +277,7 @@ class ledctl(Screen):
 			elif boxime == 'me' or boxime == 'gb800ue':
 				if standby == 0 or config.rsi.recstandby.value == True:
 					singleled(config.rsi.recordled.value)
-	
+
 	def standby(self, switch):
 		global standby
 		standby = switch
@@ -355,7 +355,7 @@ class ledctl(Screen):
 					secondled(switch)
 			elif (boxime == 'me' and recording == 0) or (boxime == 'gb800ue' and recording == 0):
 				singleled(config.rsi.hdled.value)
-	
+
 	def screensize(self, size):
 		global screensize
 		global hd
@@ -388,7 +388,7 @@ class RSIConfig(Screen, ConfigListScreen):
 
 		self.list = []
 		self["config"] = ConfigList(self.list)
-		
+
 		if boxime != 'ultra':
 			self.list.append(getConfigListEntry(_("Turn off VFD in standby"), config.rsi.vfdoffstandby))
 		if boxime == 'premium+' or boxime == 'premium':
@@ -458,7 +458,7 @@ class ChangeTimeWizzard(Screen):
 		self.session = session
 		jetzt = time.time()
 		timezone = datetime.datetime.utcnow()
-		delta = (jetzt - time.mktime(timezone.timetuple())) 
+		delta = (jetzt - time.mktime(timezone.timetuple()))
 		self.oldtime = strftime("%Y:%m:%d %H:%M", localtime())
 		self.session.openWithCallback(self.askForNewTime, InputBox, title=_("Please Enter new System time and press OK !"), text="%s" % (self.oldtime), maxSize=16, type=Input.NUMBER)
 
@@ -521,7 +521,7 @@ class ChangeTimeWizzard(Screen):
 			self.session.open(MyConsole, _("Setting Time..."), [cmd])
 
 	def skipChangeTime(self, reason):
-		self.session.open(MessageBox, (_("Change system time was canceled, because %s") % reason), MessageBox.TYPE_WARNING)	
+		self.session.open(MessageBox, (_("Change system time was canceled, because %s") % reason), MessageBox.TYPE_WARNING)
 
 	def close(self):
 		pass
@@ -534,10 +534,10 @@ class keymapper(Screen):
 			keymapparser.readKeymap("/usr/lib/enigma2/python/Plugins/Extensions/RSIConfig/keymaps/azboxme.xml")
 		elif boxime[:2] == 'gb':
 			keymapparser.readKeymap("/usr/lib/enigma2/python/Plugins/Extensions/RSIConfig/keymaps/gigablue.xml")
-		
+
 		if newInfoBarPlugins__init__ is None:
 			newInfoBarPlugins__init__ = InfoBarPlugins.__init__
-		
+
 		InfoBarPlugins.__init__ = InfoBarPlugins__init__
 		InfoBarPlugins.showAzBoxPortal = showAzBoxPortal
 		InfoBarPlugins.rtvswitch = rtvswitch
@@ -550,7 +550,7 @@ def InfoBarPlugins__init__(self):
 			"showAzBoxPortal": self.showAzBoxPortal,
 			"rtvswitch": self.rtvswitch
 		})
-	
+
 	newInfoBarPlugins__init__(self)
 
 
@@ -574,10 +574,10 @@ class AzBox_Portal(Screen):
 			<convert type="StringList" />
 		</widget>
 		</screen>"""
-	
+
 	def __init__(self, session):
 		Screen.__init__(self, session)
-		
+
 		self["shortcuts"] = ActionMap(["ShortcutActions", "WizardActions"],
 		{
 			"ok": self.okbuttonClick,
@@ -588,7 +588,7 @@ class AzBox_Portal(Screen):
 			"yellow": self.exit,
 			"blue": self.exit,
 		})
-		
+
 		list = []
 		if config.servicelist.lastmode.value == 'tv':
 			list.append((_("Switch to Radio"), "radio", "", "50"))
@@ -596,7 +596,7 @@ class AzBox_Portal(Screen):
 			list.append((_("Switch to TV"), "tv", "", "50"))
 		list.append((_("Recordings Player"), "recplayer", "", "50"))
 		self["menu"] = List(list)
-		
+
 	def okbuttonClick(self):
 		selection = self["menu"].getCurrent()
 		if selection is not None:
@@ -608,7 +608,7 @@ class AzBox_Portal(Screen):
 				self.exit()
 			elif selection[1] == "recplayer":
 				InfoBar.showMovies(InfoBar.instance)
-	
+
 	def exit(self):
 		self.close()
 
@@ -631,7 +631,7 @@ def autostart(reason, **kwargs):
 			session = kwargs["session"]
 			if config.rsi.keymaphelper.value == True:
 				keymapper(session)
-			
+
 			ledctl(session)
 
 
