@@ -29,30 +29,30 @@ import datetime
 newInfoBarPlugins__init__ = None
 
 config.rsi = ConfigSubsection()
-config.rsi.vfdoffstandby = ConfigYesNo(default = False)
-config.rsi.recstandby = ConfigYesNo(default = False)
-config.rsi.keymaphelper = ConfigYesNo(default = True)
+config.rsi.vfdoffstandby = ConfigYesNo(default=False)
+config.rsi.recstandby = ConfigYesNo(default=False)
+config.rsi.keymaphelper = ConfigYesNo(default=True)
 boxime = HardwareInfo().get_device_name()
 if boxime == 'minime': 
 	boxime = 'me'
 if boxime == 'premium+' or boxime == 'premium':
-	config.rsi.redled = ConfigSelection(choices = {"alwaysoff": _("Always off"), "standbyoff": _("Standby off"), "alwayson": _("Always on"), "recon": _("Recording on"), "hdon": _("HD on")}, default="recon")
-	config.rsi.blueled = ConfigSelection(choices = {"alwaysoff": _("Always off"), "standbyoff": _("Standby off"), "alwayson": _("Always on"), "recon": _("Recording on"), "hdon": _("HD on")}, default="standbyoff")
-	config.rsi.greenled = ConfigSelection(choices = {"alwaysoff": _("Always off"), "standbyoff": _("Standby off"), "alwayson": _("Always on"), "recon": _("Recording on"), "hdon": _("HD on")}, default="hdon")
+	config.rsi.redled = ConfigSelection(choices={"alwaysoff": _("Always off"), "standbyoff": _("Standby off"), "alwayson": _("Always on"), "recon": _("Recording on"), "hdon": _("HD on")}, default="recon")
+	config.rsi.blueled = ConfigSelection(choices={"alwaysoff": _("Always off"), "standbyoff": _("Standby off"), "alwayson": _("Always on"), "recon": _("Recording on"), "hdon": _("HD on")}, default="standbyoff")
+	config.rsi.greenled = ConfigSelection(choices={"alwaysoff": _("Always off"), "standbyoff": _("Standby off"), "alwayson": _("Always on"), "recon": _("Recording on"), "hdon": _("HD on")}, default="hdon")
 elif boxime == 'ultra':
-	config.rsi.firstled = ConfigSelection(choices = {"alwaysoff": _("Always off"), "standbyoff": _("Standby off"), "alwayson": _("Always on"), "recon": _("Recording on"), "hdon": _("HD on")}, default="alwayson")
-	config.rsi.secondled = ConfigSelection(choices = {"alwaysoff": _("Always off"), "standbyoff": _("Standby off"), "alwayson": _("Always on"), "recon": _("Recording on"), "hdon": _("HD on")}, default="standbyoff")
+	config.rsi.firstled = ConfigSelection(choices={"alwaysoff": _("Always off"), "standbyoff": _("Standby off"), "alwayson": _("Always on"), "recon": _("Recording on"), "hdon": _("HD on")}, default="alwayson")
+	config.rsi.secondled = ConfigSelection(choices={"alwaysoff": _("Always off"), "standbyoff": _("Standby off"), "alwayson": _("Always on"), "recon": _("Recording on"), "hdon": _("HD on")}, default="standbyoff")
 elif boxime == 'me' or boxime == 'gb800ue':
-	config.rsi.normalled = ConfigSelection(choices = {"0": _("Off"), "1": _("Blue"), "2": _("Red"), "3": _("Purple")}, default="1")
-	config.rsi.recordled = ConfigSelection(choices = {"0": _("Off"), "1": _("Blue"), "2": _("Red"), "3": _("Purple")}, default="2")
-	config.rsi.hdled = ConfigSelection(choices = {"0": _("Off"), "1": _("Blue"), "2": _("Red"), "3": _("Purple")}, default="1")
-	config.rsi.standbyled = ConfigSelection(choices = {"0": _("Off"), "1": _("Blue"), "2": _("Red"), "3": _("Purple")}, default="3")
-	config.rsi.syncNTPtime   = ConfigSelection(choices = [("1", _("Press OK"))], default = "1")
-	config.rsi.syncDVBtime = ConfigSelection(choices = [("1", _("Press OK"))], default = "1")
-	config.rsi.syncManually = ConfigSelection(choices = [("1", _("Press OK"))], default = "1")
-	config.rsi.empty = ConfigSelection(choices = [("1", _(" "))], default = "1")
+	config.rsi.normalled = ConfigSelection(choices={"0": _("Off"), "1": _("Blue"), "2": _("Red"), "3": _("Purple")}, default="1")
+	config.rsi.recordled = ConfigSelection(choices={"0": _("Off"), "1": _("Blue"), "2": _("Red"), "3": _("Purple")}, default="2")
+	config.rsi.hdled = ConfigSelection(choices={"0": _("Off"), "1": _("Blue"), "2": _("Red"), "3": _("Purple")}, default="1")
+	config.rsi.standbyled = ConfigSelection(choices={"0": _("Off"), "1": _("Blue"), "2": _("Red"), "3": _("Purple")}, default="3")
+	config.rsi.syncNTPtime   = ConfigSelection(choices=[("1", _("Press OK"))], default="1")
+	config.rsi.syncDVBtime = ConfigSelection(choices=[("1", _("Press OK"))], default="1")
+	config.rsi.syncManually = ConfigSelection(choices=[("1", _("Press OK"))], default="1")
+	config.rsi.empty = ConfigSelection(choices=[("1", _(" "))], default="1")
 if boxime == 'premium+' or boxime == 'ultra':
-	config.rsi.fanoff = ConfigSelection(choices = {"alwaysoff": _("Always off"), "standbyoff": _("Standby off"), "alwayson": _("Always on")}, default="standbyoff")
+	config.rsi.fanoff = ConfigSelection(choices={"alwaysoff": _("Always off"), "standbyoff": _("Standby off"), "alwayson": _("Always on")}, default="standbyoff")
 
 #For me led control we have to know present state of recording and hd
 screensize = 0
@@ -150,7 +150,7 @@ def fanctl(switch):
 		except:
 			pass
 
-def startup(startup = 1):
+def startup(startup=1):
 	print "Applying RSI Configuration Options"
 	if boxime == 'premium+' or boxime == 'premium':
 		if config.rsi.redled.value == 'alwaysoff' or (config.rsi.redled.value == 'hdon' and hd == 0) or (config.rsi.redled.value == 'recon' and recording == 0):
@@ -196,13 +196,12 @@ def startup(startup = 1):
 class ledctl(Screen):
 	def __init__(self, session):
 		Screen.__init__(self, session)
-		self.__event_tracker = ServiceEventTracker(screen = self, eventmap =
-			{
+		self.__event_tracker = ServiceEventTracker(screen=self, eventmap={
 				iPlayableService.evVideoSizeChanged: self.__evVideoSizeChanged
 			})
 	
 		NavigationInstance.instance.record_event.append(self.getRecordEvent)
-		config.misc.standbyCounter.addNotifier(self.standbyCounterChanged, initial_call = False)
+		config.misc.standbyCounter.addNotifier(self.standbyCounterChanged, initial_call=False)
 		startup()
 	
 	def __evVideoSizeChanged(self):
@@ -438,7 +437,7 @@ class MyConsole(Console):
 		<widget name="text" position="10,10" size="485,230" font="Regular;20" />
 		</screen>"""
 
-	def __init__(self, session, title = "My Console...", cmdlist = None):
+	def __init__(self, session, title="My Console...", cmdlist=None):
 		Console.__init__(self, session, title, cmdlist)
 
 class ChangeTimeWizzard(Screen):
@@ -616,6 +615,6 @@ def autostart(reason, **kwargs):
 
 def Plugins(**kwargs):
 	list = []
-	list.append(PluginDescriptor(name=_("RSI Configuration"), description=_("RSI Configuration Options"),where=PluginDescriptor.WHERE_MENU, needsRestart = False, fnc=selSetup))
+	list.append(PluginDescriptor(name=_("RSI Configuration"), description=_("RSI Configuration Options"),where=PluginDescriptor.WHERE_MENU, needsRestart=False, fnc=selSetup))
 	list.append(PluginDescriptor(name=_("RSI Configuration"), description=_("RSI Configuration Options"),where=PluginDescriptor.WHERE_SESSIONSTART, fnc=autostart))
 	return list
