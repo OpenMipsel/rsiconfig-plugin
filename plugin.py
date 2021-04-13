@@ -365,7 +365,7 @@ class RSIConfig(Screen, ConfigListScreen):
 
 		self.skinName = ["Setup"]
 
-		self["actions"] = NumberActionMap(["SetupActions","OkCancelActions", "ColorActions"],
+		self["actions"] = NumberActionMap(["SetupActions", "OkCancelActions", "ColorActions"],
 		{
 			"ok": self.keyOk,
 			"cancel": self.keyCancel,
@@ -446,10 +446,10 @@ class ChangeTimeWizzard(Screen):
 		jetzt = time.time()
 		timezone = datetime.datetime.utcnow()
 		delta = (jetzt - time.mktime(timezone.timetuple())) 
-		self.oldtime = strftime("%Y:%m:%d %H:%M",localtime())
-		self.session.openWithCallback(self.askForNewTime,InputBox, title=_("Please Enter new System time and press OK !"), text="%s" % (self.oldtime), maxSize=16, type=Input.NUMBER)
+		self.oldtime = strftime("%Y:%m:%d %H:%M", localtime())
+		self.session.openWithCallback(self.askForNewTime, InputBox, title=_("Please Enter new System time and press OK !"), text="%s" % (self.oldtime), maxSize=16, type=Input.NUMBER)
 
-	def askForNewTime(self,newclock):
+	def askForNewTime(self, newclock):
 		try:
 			length = len(newclock)
 		except:
@@ -464,15 +464,15 @@ class ChangeTimeWizzard(Screen):
 			self.skipChangeTime(_("invalid format"))
 		else:
 			full = []
-			full = newclock.split(" ",1)
+			full = newclock.split(" ", 1)
 			newdate = full[0]
 			newtime = full[1]
 			parts = []
-			parts = newdate.split(":",2)
+			parts = newdate.split(":", 2)
 			newyear = parts[0]
 			newmonth = parts[1]
 			newday = parts[2]
-			parts = newtime.split(":",1)
+			parts = newtime.split(":", 1)
 			newhour = parts[0]
 			newmin = parts[1]
 			maxmonth = 31
@@ -494,10 +494,10 @@ class ChangeTimeWizzard(Screen):
 			elif (int(newmin) < 0) or (int(newmin) > 59) or (len(newmin) < 2) is True:
 				self.skipChangeTime(_("invalid minute %s") % newmin)
 			else:
-				self.newtime = "%s%s%s%s%s" % (newmonth,newday,newhour,newmin,newyear)
-				self.session.openWithCallback(self.DoChangeTimeRestart,MessageBox,_("Apply the new System time?"), MessageBox.TYPE_YESNO)
+				self.newtime = "%s%s%s%s%s" % (newmonth, newday, newhour, newmin, newyear)
+				self.session.openWithCallback(self.DoChangeTimeRestart, MessageBox, _("Apply the new System time?"), MessageBox.TYPE_YESNO)
 
-	def DoChangeTimeRestart(self,answer):
+	def DoChangeTimeRestart(self, answer):
 		if answer is None:
 			self.skipChangeTime(_("answer is None"))
 		if answer is False:
@@ -507,8 +507,8 @@ class ChangeTimeWizzard(Screen):
 			cmd = '/usr/lib/enigma2/python/Plugins/Extensions/RSIConfig/manupdate'
 			self.session.open(MyConsole, _("Setting Time..."), [cmd])
 
-	def skipChangeTime(self,reason):
-		self.session.open(MessageBox,(_("Change system time was canceled, because %s") % reason), MessageBox.TYPE_WARNING)	
+	def skipChangeTime(self, reason):
+		self.session.open(MessageBox, (_("Change system time was canceled, because %s") % reason), MessageBox.TYPE_WARNING)	
 
 	def close(self):
 		pass
@@ -615,6 +615,6 @@ def autostart(reason, **kwargs):
 
 def Plugins(**kwargs):
 	list = []
-	list.append(PluginDescriptor(name=_("RSI Configuration"), description=_("RSI Configuration Options"),where=PluginDescriptor.WHERE_MENU, needsRestart=False, fnc=selSetup))
-	list.append(PluginDescriptor(name=_("RSI Configuration"), description=_("RSI Configuration Options"),where=PluginDescriptor.WHERE_SESSIONSTART, fnc=autostart))
+	list.append(PluginDescriptor(name=_("RSI Configuration"), description=_("RSI Configuration Options"), where=PluginDescriptor.WHERE_MENU, needsRestart=False, fnc=selSetup))
+	list.append(PluginDescriptor(name=_("RSI Configuration"), description=_("RSI Configuration Options"), where=PluginDescriptor.WHERE_SESSIONSTART, fnc=autostart))
 	return list
