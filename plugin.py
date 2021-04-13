@@ -363,7 +363,7 @@ class RSIConfig(Screen, ConfigListScreen):
 	def __init__(self, session):
 		Screen.__init__(self, session)
 
-		self.skinName = [ "Setup" ]
+		self.skinName = ["Setup"]
 
 		self["actions"] = NumberActionMap(["SetupActions","OkCancelActions", "ColorActions"],
 		{
@@ -599,7 +599,7 @@ def startConfig(session, **kwargs):
 
 def selSetup(menuid, **kwargs):
 	if menuid != "setup":
-		return [ ]
+		return []
 	return [(_("RSI Configuration"), startConfig, "RSI Configuration Options", None)]
 
 def autostart(reason, **kwargs):
