@@ -47,7 +47,7 @@ elif boxime == 'me' or boxime == 'gb800ue':
 	config.rsi.recordled = ConfigSelection(choices={"0": _("Off"), "1": _("Blue"), "2": _("Red"), "3": _("Purple")}, default="2")
 	config.rsi.hdled = ConfigSelection(choices={"0": _("Off"), "1": _("Blue"), "2": _("Red"), "3": _("Purple")}, default="1")
 	config.rsi.standbyled = ConfigSelection(choices={"0": _("Off"), "1": _("Blue"), "2": _("Red"), "3": _("Purple")}, default="3")
-	config.rsi.syncNTPtime   = ConfigSelection(choices=[("1", _("Press OK"))], default="1")
+	config.rsi.syncNTPtime = ConfigSelection(choices=[("1", _("Press OK"))], default="1")
 	config.rsi.syncDVBtime = ConfigSelection(choices=[("1", _("Press OK"))], default="1")
 	config.rsi.syncManually = ConfigSelection(choices=[("1", _("Press OK"))], default="1")
 	config.rsi.empty = ConfigSelection(choices=[("1", _(" "))], default="1")
@@ -451,9 +451,9 @@ class ChangeTimeWizzard(Screen):
 
 	def askForNewTime(self,newclock):
 		try:
-			length=len(newclock)
+			length = len(newclock)
 		except:
-			length=0
+			length = 0
 		if newclock is None:
 			self.close()
 		elif (length == 16) is False:
@@ -463,38 +463,38 @@ class ChangeTimeWizzard(Screen):
 		elif (newclock.count(":") < 3) is True:
 			self.skipChangeTime(_("invalid format"))
 		else:
-			full=[]
-			full=newclock.split(" ",1)
-			newdate=full[0]
-			newtime=full[1]
-			parts=[]
-			parts=newdate.split(":",2)
-			newyear=parts[0]
-			newmonth=parts[1]
-			newday=parts[2]
-			parts=newtime.split(":",1)
-			newhour=parts[0]
-			newmin=parts[1]
+			full = []
+			full = newclock.split(" ",1)
+			newdate = full[0]
+			newtime = full[1]
+			parts = []
+			parts = newdate.split(":",2)
+			newyear = parts[0]
+			newmonth = parts[1]
+			newday = parts[2]
+			parts = newtime.split(":",1)
+			newhour = parts[0]
+			newmin = parts[1]
 			maxmonth = 31
 			if (int(newmonth) == 4) or (int(newmonth) == 6) or (int(newmonth) == 9) or (int(newmonth) == 11) is True:
-				maxmonth=30
+				maxmonth = 30
 			elif (int(newmonth) == 2) is True:
-				if ((4*int(int(newyear)/4)) == int(newyear)) is True:
-					maxmonth=28
+				if ((4 * int(int(newyear) / 4)) == int(newyear)) is True:
+					maxmonth = 28
 				else:
-					maxmonth=27
-			if (int(newyear) < 2007) or (int(newyear) > 2027)  or (len(newyear) < 4) is True:
-				self.skipChangeTime(_("invalid year %s") %newyear)
-			elif (int(newmonth) < 0) or (int(newmonth) >12) or (len(newmonth) < 2) is True:
-				self.skipChangeTime(_("invalid month %s") %newmonth)
+					maxmonth = 27
+			if (int(newyear) < 2007) or (int(newyear) > 2027) or (len(newyear) < 4) is True:
+				self.skipChangeTime(_("invalid year %s") % newyear)
+			elif (int(newmonth) < 0) or (int(newmonth) > 12) or (len(newmonth) < 2) is True:
+				self.skipChangeTime(_("invalid month %s") % newmonth)
 			elif (int(newday) < 1) or (int(newday) > maxmonth) or (len(newday) < 2) is True:
-				self.skipChangeTime(_("invalid day %s") %newday)
+				self.skipChangeTime(_("invalid day %s") % newday)
 			elif (int(newhour) < 0) or (int(newhour) > 23) or (len(newhour) < 2) is True:
-				self.skipChangeTime(_("invalid hour %s") %newhour)
+				self.skipChangeTime(_("invalid hour %s") % newhour)
 			elif (int(newmin) < 0) or (int(newmin) > 59) or (len(newmin) < 2) is True:
-				self.skipChangeTime(_("invalid minute %s") %newmin)
+				self.skipChangeTime(_("invalid minute %s") % newmin)
 			else:
-				self.newtime = "%s%s%s%s%s" %(newmonth,newday,newhour,newmin,newyear)
+				self.newtime = "%s%s%s%s%s" % (newmonth,newday,newhour,newmin,newyear)
 				self.session.openWithCallback(self.DoChangeTimeRestart,MessageBox,_("Apply the new System time?"), MessageBox.TYPE_YESNO)
 
 	def DoChangeTimeRestart(self,answer):
