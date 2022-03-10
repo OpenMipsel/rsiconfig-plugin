@@ -160,7 +160,7 @@ def fanctl(switch):
 
 
 def startup(startup=1):
-	print "Applying RSI Configuration Options"
+	print("Applying RSI Configuration Options")
 	if boxime == 'premium+' or boxime == 'premium':
 		if config.rsi.redled.value == 'alwaysoff' or (config.rsi.redled.value == 'hdon' and hd == 0) or (config.rsi.redled.value == 'recon' and recording == 0):
 			redled(0)
@@ -218,7 +218,7 @@ class ledctl(Screen):
 		service = session.nav.getCurrentService()
 		info = service and service.info()
 		height = info and info.getInfo(iServiceInformation.sVideoHeight)
-		print height
+		print(height)
 		self.screensize(info.getInfo(iServiceInformation.sVideoHeight))
 
 	def getRecordEvent(self, recservice, event):
@@ -560,10 +560,10 @@ def showAzBoxPortal(self):
 
 def rtvswitch(self):
 	if config.servicelist.lastmode.value == 'tv':
-		print "RSI - Switch to Radio"
+		print("RSI - Switch to Radio")
 		InfoBar.showRadio(InfoBar.instance)
 	elif config.servicelist.lastmode.value == 'radio':
-		print "RSI - Switch to TV"
+		print("RSI - Switch to TV")
 		InfoBar.showTv(InfoBar.instance)
 
 
